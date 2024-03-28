@@ -16,13 +16,14 @@ async def handle_echo(reader, writer):
     await writer.wait_closed()
 
 async def main():
-    server = await asyncio.start_server(
-        handle_echo, '127.0.0.1', 8888)
+    server = await asyncio.start_server(handle_echo, '127.0.0.1', 8888)
 
     addrs = ', '.join(str(sock.getsockname()) for sock in server.sockets)
     print(f'Serving on {addrs}')
 
     async with server:
+        #Start accepting connections until the coroutine is cancelled.
+        # The server is closed when the coroutine is cancelled.
         await server.serve_forever()
 
 asyncio.run(main())

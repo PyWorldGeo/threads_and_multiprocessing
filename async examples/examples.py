@@ -1,19 +1,29 @@
 import asyncio
 #1
+#The “async def” expression defines a coroutine.
+#Coroutines are concurrent tasks in asyncio programs. Coroutines are unlike thread-based and process-based concurrency commonly used in Python.
+#Multithreading uses threads in a single process,
+# multiprocessing spawns separate processes
+#while asyncio leverages an event loop and coroutines for cooperative multitasking.
 async def main():
     print("First")
+    #The await keyword is used to pause the execution of the coroutine until the called coroutine completes.
     await foo('Second')
     print('Last')
 
 async def foo(text):
     print(text)
+    #We call asyncio. sleep() when we want to block or suspend the current coroutine for some time.
     await asyncio.sleep(1)
 
+#asyncio. run(main()): This is the main entry point to execute the async program. It runs the main() coroutine and ends when the main() coroutine completes.
 asyncio.run(main())
 
 #2
 async def main():
     print("First")
+    #It submits the coroutine to run "in the background", i.e. concurrently with the current task and all other tasks,
+    # switching between them at await points. It returns an awaitable handle called a "task" which you can also use to cancel the execution of the coroutine.
     task = asyncio.create_task(foo('Second'))
     print('Last')
 
@@ -77,7 +87,7 @@ async def print_numbers():
 async def main():
     task1 = asyncio.create_task(fetch_data())
     task2 = asyncio.create_task(print_numbers())
-    value = await  task1
+    value = await task1
     print(value)
 
 asyncio.run(main())
@@ -100,6 +110,8 @@ async def task3():
 
 async def main():
     start_time = time.time()
+    #We can use asyncio. gather to run multiple coroutines concurrently and wait for all of them to complete.
+    # The advantage of using asyncio.gather is that it allows you to run multiple coroutines concurrently without blocking the event loop.
     await asyncio.gather(task1(), task2(), task3())
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -108,29 +120,3 @@ async def main():
 asyncio.run(main())
 
 
-#8 Write a Python program that uses asyncio queues to simulate a producer-consumer scenario with multiple producers and a single consumer.
-import asyncio
-import random
-async def producer(queue, id):
-    for i in range(3):
-        item = f"Item: {id}-{i}"
-        await queue.put(item)
-        print(f"Producer {id} produced-> {item}")
-        await asyncio.sleep(random.uniform(0.1, 0.5))
-async def consumer(queue):
-    while True:
-        item = await queue.get()
-        if item is None:
-            break
-        print(f"Consumer consumed {item}")
-        queue.task_done()
-async def main():
-    queue = asyncio.Queue()
-    producers = [asyncio.create_task(producer(queue, i)) for i in range(3)]
-    consumer_task = asyncio.create_task(consumer(queue))
-    await asyncio.gather(*producers)
-    await queue.join()
-    await queue.put(None)  # Signal the consumer to stop
-    await consumer_task
-# Run the event loop
-asyncio.run(main())
