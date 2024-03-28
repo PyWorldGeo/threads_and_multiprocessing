@@ -3,7 +3,7 @@ import time
 import concurrent.futures
 
 img_urls = [
-    'https://images.unsplash.com/photo-1516117172878-fd2c41f4a759',
+    'https://unsplash.com/photos/a-person-standing-on-top-of-a-sand-dune-aWHKsYkbCi8',
     'https://images.unsplash.com/photo-1532009324734-20a7a5813719',
     'https://images.unsplash.com/photo-1524429656589-6633a470097c',
     'https://images.unsplash.com/photo-1530224264768-7ff8c1789d79',

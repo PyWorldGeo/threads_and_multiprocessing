@@ -12,7 +12,8 @@ port = 55555  # Port to listen on (non-privileged ports are > 1023)
 # You’re going to create a socket object using socket.socket(), specifying the socket type as socket.SOCK_STREAM.
 # When you do that, the default protocol that’s used is the Transmission Control Protocol (TCP).
 
-#1 #The arguments passed to socket() are constants used to specify the address family and socket type. AF_INET is the Internet address family for IPv4.
+#1 #The arguments passed to socket() are constants used to specify the address family and socket type.
+# AF_INET is the Internet address family for IPv4.
 # SOCK_STREAM is the socket type for TCP, the protocol that will be used to transport messages in the network.
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
